@@ -1,0 +1,11 @@
+{
+  "positions": [
+    {
+      "ticker": "AAPL",
+      "shares": 10,
+      "purchase_price": 150.00,
+      "purchase_date": "2024-01-01"
+    }
+  ],
+  "last_updated": null
+}
