@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m pip:*)",
+      "Bash(pip install:*)",
+      "Bash(python test_setup.py:*)",
+      "Bash(python main.py:*)",
+      "Bash(venv/Scripts/pip install:*)",
+      "Bash(venv/Scripts/python.exe:*)",
+      "Bash(venv\\\\Scripts\\\\python.exe:*)",
+      "Bash(git rm:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ]
+  }
+}

@@ -43,6 +43,7 @@ venv.bak/
 .DS_Store
 
 # Data and databases
+data/portfolio.json
 data/chroma_db/
 *.db
 *.sqlite
