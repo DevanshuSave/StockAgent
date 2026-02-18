@@ -1,0 +1,9 @@
+anthropic>=0.80.0
+yfinance>=1.2.0
+chromadb>=0.4.22
+sentence-transformers>=5.2.3
+pydantic>=2.5.3
+python-dotenv>=1.2.1
+rich>=14.3.2
+pandas>=3.0.1
+numpy>=1.26.4
