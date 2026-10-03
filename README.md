@@ -267,10 +267,10 @@ Potential improvements:
 
 - **[Anthropic Claude](https://www.anthropic.com)** - AI agent
 - **[yfinance](https://github.com/ranaroussi/yfinance)** - Stock data
-- **[ChromaDB](https://www.trychroma.com)** - Vector database
+- **[ChromaDB](https://www.trychroma.com)** - Vector database (Python 3.11-3.13)
 - **[Pydantic](https://docs.pydantic.dev)** - Data validation
 - **[Rich](https://rich.readthedocs.io)** - Terminal UI
-- **Python 3.13**
+- **Python 3.11, 3.12, or 3.13**
 
 ## License
 

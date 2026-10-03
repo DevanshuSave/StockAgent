@@ -103,14 +103,24 @@ Remember: You are helping users make informed investment decisions. Be thorough 
                 # Call Claude API
                 # Build API call parameters
                 api_params = {
-                    "model": config.AGENT_MODEL,
                     "max_tokens": 4096,
                     "system": self.system_prompt,
                     "tools": get_tool_definitions(),
                     "messages": self.conversation_history
                 }
 
-                logger.info(f"Using model: {config.AGENT_MODEL}")
+                # Add model if specified or using standard endpoint
+                # Allow custom endpoints to use their deployment defaults
+                if config.AGENT_MODEL:
+                    api_params["model"] = config.AGENT_MODEL
+                    logger.info(f"Using model: {config.AGENT_MODEL}")
+                elif not config.ANTHROPIC_BASE_URL:
+                    # Only require model for standard endpoint
+                    logger.error("Model not specified and using standard Anthropic endpoint")
+                    return "Error: No model specified. Please set ANTHROPIC_MODEL in .env or use a custom endpoint with deployment defaults."
+                else:
+                    logger.info("Using custom endpoint deployment defaults for model")
+
                 response = self.client.messages.create(**api_params)
 
                 logger.info(f"Received response with stop_reason: {response.stop_reason}")
