@@ -103,21 +103,14 @@ Remember: You are helping users make informed investment decisions. Be thorough 
                 # Call Claude API
                 # Build API call parameters
                 api_params = {
+                    "model": config.AGENT_MODEL,
                     "max_tokens": 4096,
                     "system": self.system_prompt,
                     "tools": get_tool_definitions(),
                     "messages": self.conversation_history
                 }
 
-                # Only add model if one is specified, otherwise use endpoint default
-                if config.AGENT_MODEL:
-                    api_params["model"] = config.AGENT_MODEL
-                    logger.info(f"Using model: {config.AGENT_MODEL}")
-                else:
-                    logger.info("No model specified - using endpoint's default")
-                    # Don't include model parameter at all
-                    pass
-
+                logger.info(f"Using model: {config.AGENT_MODEL}")
                 response = self.client.messages.create(**api_params)
 
                 logger.info(f"Received response with stop_reason: {response.stop_reason}")
