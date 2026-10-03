@@ -265,6 +265,49 @@ A skill command in skill.md follows this structure:
 3. `/generate-docs` - Update documentation
 4. `/commit-changes feature "new feature description"` - Commit changes
 
+## Automated Hooks
+
+Skills can run automatically on Git events using Claude Code hooks. This ensures code quality and security.
+
+### Recommended Hook Setup
+
+See `hooks-example.json` for complete configuration with explanations.
+
+**Quick setup:**
+1. Open `~/.claude/settings.json`
+2. Add the hooks section from `hooks-example.json`
+3. Restart Claude Code
+
+**Default configuration:**
+```json
+{
+  "hooks": {
+    "pre_commit": "/check-security && /lint-agent && /test-agent 'test query'",
+    "post_commit": "/generate-docs",
+    "pre_push": "/validate-config && /test-tools",
+    "on_open": "/validate-config",
+    "post_fetch": "/validate-config"
+  }
+}
+```
+
+**What this does:**
+- `pre_commit`: Validate before committing (security → lint → test)
+- `post_commit`: Auto-update docs after successful commit
+- `pre_push`: Final validation before pushing to remote
+- `on_open`: Check setup when project opens
+- `post_fetch`: Validate setup after pulling changes
+
+### Hook Events
+
+| Event | Trigger | Use Case |
+|-------|---------|----------|
+| `pre_commit` | Before git commit | Catch issues early |
+| `post_commit` | After git commit | Auto-update docs |
+| `pre_push` | Before git push | Final validation |
+| `on_open` | Project opened | Verify setup |
+| `post_fetch` | After git pull | Check compatibility |
+
 ## Notes
 
 - All commands are designed to be run from the project root directory
@@ -272,3 +315,5 @@ A skill command in skill.md follows this structure:
 - Failed commands provide helpful error messages and suggestions
 - Use `--help` flag on any command for detailed usage
 - Commands are safe and non-destructive (except commits)
+- Hooks run automatically and can prevent unsafe operations
+- See `hooks-example.json` for detailed hook configuration guide
