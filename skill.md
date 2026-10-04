@@ -16,8 +16,7 @@ python -m tests.test_setup
 ```
 
 **What it validates:**
-- Python version (3.11+)
-- All project imports
+- Python version (3.11-3.13)
 - Configuration and environment variables
 - Portfolio operations
 - Tool definitions
