@@ -107,9 +107,9 @@ Remember: You are helping users make informed investment decisions. Be thorough 
                     model = config.AGENT_MODEL
                     logger.info(f"Using model: {model}")
                 elif config.ANTHROPIC_BASE_URL:
-                    raise ValueError(
-                        "ANTHROPIC_MODEL must be set when using a custom endpoint"
-                    )
+                    # Custom endpoint: use generic placeholder (endpoint will route to its default)
+                    model = "claude"
+                    logger.info("Custom endpoint: using generic model placeholder")
                 else:
                     # Standard endpoint: use Claude Haiku as default
                     model = "claude-haiku-4-5-20251001"
