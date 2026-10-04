@@ -24,8 +24,8 @@ DATA_DIR.mkdir(exist_ok=True)
 CHROMA_DB_PATH.mkdir(exist_ok=True)
 
 # Agent settings
-# Model name - if empty, will use endpoint's default
-AGENT_MODEL = os.getenv("ANTHROPIC_MODEL", "") or None  # None means use default
+# Model name - optional, can be left empty to use defaults based on endpoint type
+AGENT_MODEL = os.getenv("ANTHROPIC_MODEL")
 MAX_AGENT_ITERATIONS = 10
 
 # Stock data settings

@@ -7,7 +7,7 @@ An AI-powered stock analysis and portfolio management system built with Claude A
 - 🤖 **AI-Powered Recommendations**: Get buy/sell/hold recommendations using Claude AI
 - 📊 **Real-Time Stock Data**: Fetch current prices, fundamentals, and historical data
 - 💼 **Portfolio Management**: Track your holdings with automatic gain/loss calculations
-- 🔍 **Semantic Search**: Find relevant holdings using natural language (RAG with ChromaDB)
+- 🔍 **Semantic Search**: Find relevant holdings using natural language (RAG with ChromaDB - Python 3.11-3.13)
 - 📈 **Comprehensive Analysis**: Valuation, growth, risk, and diversification metrics
 - 🎯 **Sector Analysis**: Track sector exposure and concentration risks
 - 🎨 **Beautiful CLI**: Rich terminal interface with colors and formatting
@@ -26,14 +26,14 @@ User CLI → Agent Orchestrator (Claude API) → Tools:
 
 ### Prerequisites
 
-- Python 3.13
+- **Python 3.11 - 3.13** (RAG features require ChromaDB compatibility; Python 3.14+ not yet supported)
 - Anthropic API key (get one at [console.anthropic.com](https://console.anthropic.com))
 
 ### Setup
 
-1. **Clone/navigate to the project directory:**
+1. **Navigate to the project directory:**
    ```bash
-   cd C:\learning\StockAgent
+   cd path/to/StockAgent
    ```
 
 2. **Create a virtual environment (recommended):**
@@ -49,11 +49,12 @@ User CLI → Agent Orchestrator (Claude API) → Tools:
    ```
 
 4. **Configure API key:**
-   - Open `.env` file
-   - Replace `your_api_key_here` with your actual Anthropic API key:
+   - Copy `.env.example` to `.env` (or create `.env` from scratch)
+   - Add your Anthropic API key from [console.anthropic.com](https://console.anthropic.com):
      ```
      ANTHROPIC_API_KEY=sk-ant-xxxxxxxxxxxxx
      ```
+   - **⚠️ Never commit `.env` to git** (it's in .gitignore)
 
 5. **Run the application:**
    ```bash
@@ -162,9 +163,11 @@ StockAgent/
 
 ## Configuration
 
-Edit `config.py` to customize:
+Edit `config.py` or `.env` to customize:
 
-- **Agent settings**: Model, max iterations
+- **Agent settings**:
+  - Model (default: Claude Haiku 4.5) - set `ANTHROPIC_MODEL` in `.env` to override
+  - Max iterations (default: 10)
 - **RAG settings**: Collection name, top-K results, embedding model
 - **Analysis thresholds**: P/E ratio threshold, sector concentration limits
 - **Data paths**: Portfolio file, database location
@@ -189,7 +192,7 @@ The agent uses Claude's function calling to:
 - Select and execute relevant tools
 - Synthesize results into recommendations
 
-### 2. RAG System
+### 2. RAG System (Optional)
 Portfolio positions are embedded as rich text documents:
 ```
 Position: AAPL (Apple Inc.)
@@ -200,6 +203,8 @@ Fundamentals: P/E Ratio: 29.5 | Market Cap: $2.9T
 ```
 
 ChromaDB enables semantic queries like "show me tech stocks" or "high growth companies".
+
+**Note**: RAG features require Python 3.11-3.13. If ChromaDB is unavailable, the system degrades gracefully and continues operating with basic portfolio tools.
 
 ### 3. Analysis Engine
 The recommendation engine combines:
@@ -243,6 +248,7 @@ The recommendation engine combines:
 - **Analysis**: Recommendations are based on quantitative metrics and don't include qualitative factors
 - **Not Financial Advice**: This is an educational tool, not professional investment advice
 - **Rate Limits**: Anthropic API has rate limits on the free tier
+- **RAG Features**: Semantic search (RAG with ChromaDB) requires Python 3.11-3.13; unavailable on Python 3.14+ (system degrades gracefully)
 
 ## Future Enhancements
 
@@ -261,10 +267,10 @@ Potential improvements:
 
 - **[Anthropic Claude](https://www.anthropic.com)** - AI agent
 - **[yfinance](https://github.com/ranaroussi/yfinance)** - Stock data
-- **[ChromaDB](https://www.trychroma.com)** - Vector database
+- **[ChromaDB](https://www.trychroma.com)** - Vector database (Python 3.11-3.13)
 - **[Pydantic](https://docs.pydantic.dev)** - Data validation
 - **[Rich](https://rich.readthedocs.io)** - Terminal UI
-- **Python 3.13**
+- **Python 3.11, 3.12, or 3.13**
 
 ## License
 

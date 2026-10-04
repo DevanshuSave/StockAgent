@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 def test_python_version():
     print(f"Python version: {sys.version}")
     major, minor = sys.version_info[:2]
-    assert major == 3 and minor >= 12, f"Expected Python >= 3.12, got {major}.{minor}"
+    assert major == 3 and 11 <= minor <= 13, f"Expected Python 3.11-3.13, got {major}.{minor}"
     print("[OK] Python version")
     return True
 

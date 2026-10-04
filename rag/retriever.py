@@ -61,7 +61,7 @@ class PortfolioRetriever:
             return {
                 "error": "RAG features not available (ChromaDB compatibility issue with Python 3.14)",
                 "relevant_positions": [],
-                "context_summary": "Please use Python 3.11 or 3.12 for RAG features"
+                "context_summary": "Please use Python 3.11 or 3.12 or 3.13 for RAG features"
             }
 
         try:

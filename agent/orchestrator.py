@@ -102,21 +102,26 @@ Remember: You are helping users make informed investment decisions. Be thorough 
 
                 # Call Claude API
                 # Build API call parameters
+                # SDK requires model parameter; use appropriate default based on endpoint
+                if config.AGENT_MODEL:
+                    model = config.AGENT_MODEL
+                    logger.info(f"Using model: {model}")
+                elif config.ANTHROPIC_BASE_URL:
+                    # Custom endpoint: use generic placeholder (endpoint will route to its default)
+                    model = "claude"
+                    logger.info("Custom endpoint: using generic model placeholder")
+                else:
+                    # Standard endpoint: use Claude Haiku as default
+                    model = "claude-haiku-4-5-20251001"
+                    logger.info("Standard endpoint: using default model (claude-haiku-4-5-20251001)")
+
                 api_params = {
+                    "model": model,
                     "max_tokens": 4096,
                     "system": self.system_prompt,
                     "tools": get_tool_definitions(),
                     "messages": self.conversation_history
                 }
-
-                # Only add model if one is specified, otherwise use endpoint default
-                if config.AGENT_MODEL:
-                    api_params["model"] = config.AGENT_MODEL
-                    logger.info(f"Using model: {config.AGENT_MODEL}")
-                else:
-                    logger.info("No model specified - using endpoint's default")
-                    # Don't include model parameter at all
-                    pass
 
                 response = self.client.messages.create(**api_params)
 

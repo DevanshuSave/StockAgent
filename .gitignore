@@ -29,6 +29,7 @@ env/
 ENV/
 env.bak/
 venv.bak/
+activate.bat
 
 # Environment variables
 .env
@@ -37,6 +38,7 @@ venv.bak/
 # IDE
 .vscode/
 .idea/
+.claude/
 *.swp
 *.swo
 *~
