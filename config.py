@@ -24,8 +24,8 @@ DATA_DIR.mkdir(exist_ok=True)
 CHROMA_DB_PATH.mkdir(exist_ok=True)
 
 # Agent settings
-# Model name - defaults to Claude Haiku if not specified or empty
-AGENT_MODEL = os.getenv("ANTHROPIC_MODEL") or "claude-haiku-4-5-20251001"
+# Model name - optional, leave empty to use endpoint default (for custom deployments)
+AGENT_MODEL = os.getenv("ANTHROPIC_MODEL")
 MAX_AGENT_ITERATIONS = 10
 
 # Stock data settings
