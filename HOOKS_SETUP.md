@@ -1,28 +1,23 @@
-# Claude Code Hooks Setup Guide
+# Hooks Setup Guide
 
-Quick guide to enable automated skills for Stock Agent.
+## Git Hooks (Recommended)
 
-## 1. Locate Settings File
+For automated validation on git commit/push, set up Git hooks in `.git/hooks/`. 
 
-```bash
-# Linux/Mac
-~/.claude/settings.json
+**See [CONTRIBUTING.md](CONTRIBUTING.md) for complete Git hooks setup instructions** for:
+- Linux/macOS setup
+- Windows PowerShell setup  
+- Available hooks: pre-commit, pre-push, post-merge
 
-# Windows
-%USERPROFILE%\.claude\settings.json
-```
+## Claude Code Hooks (Not Currently Supported)
 
-Or in Claude Code:
-- Open Settings
-- Look for `.claude/settings.json` file path
+⚠️ **Note:** Claude Code does not currently support the lifecycle hook names shown below. This section is retained for reference only. For automated checks, use Git hooks instead (see CONTRIBUTING.md).
 
-## 2. Copy Hooks Configuration
+## Reference: Unsupported Claude Code Hook Format
 
-Open `hooks-example.json` in this repo and copy the `hooks` object.
+These hook names and formats are not currently supported by Claude Code. For working automation, use Git hooks (see [CONTRIBUTING.md](CONTRIBUTING.md)).
 
-## 3. Edit Settings File
-
-Add to your `~/.claude/settings.json`:
+Example of unsupported configuration (for reference):
 
 ```json
 {
@@ -105,6 +100,6 @@ Or more thorough:
 
 ## See Also
 
-- `skill.md` - Complete skill reference
-- `hooks-example.json` - Full configuration with explanations
+- [CONTRIBUTING.md](CONTRIBUTING.md) - Git hooks setup and development workflow
+- [skill.md](skill.md) - Development guide and testing
 - [Claude Code Documentation](https://claude.com/claude-code)
