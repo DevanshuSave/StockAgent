@@ -102,18 +102,18 @@ Remember: You are helping users make informed investment decisions. Be thorough 
 
                 # Call Claude API
                 # Build API call parameters
-                # SDK requires model parameter; use configured model or fallback for custom endpoints
+                # SDK requires model parameter; use appropriate default based on endpoint
                 if config.AGENT_MODEL:
                     model = config.AGENT_MODEL
                     logger.info(f"Using model: {model}")
                 elif config.ANTHROPIC_BASE_URL:
-                    # Custom endpoint without explicit model: use generic placeholder
+                    # Custom endpoint: use generic placeholder (endpoint will route to its default)
                     model = "claude"
-                    logger.info("Using custom endpoint with generic model placeholder (endpoint will route to its default)")
+                    logger.info("Custom endpoint: using generic model placeholder")
                 else:
-                    # Standard endpoint requires explicit model
-                    logger.error("Model not specified and using standard Anthropic endpoint")
-                    return "Error: No model specified. Please set ANTHROPIC_MODEL in .env or use a custom endpoint with deployment defaults."
+                    # Standard endpoint: use Claude Haiku as default
+                    model = "claude-haiku-4-5-20251001"
+                    logger.info("Standard endpoint: using default model (claude-haiku-4-5-20251001)")
 
                 api_params = {
                     "model": model,
