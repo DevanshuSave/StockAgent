@@ -71,18 +71,19 @@ git push
 
 ## Disable a Hook
 
-Remove or comment it out:
+Remove the hook from the configuration. For example, to disable `pre_push`:
 
 ```json
 {
   "hooks": {
     "pre_commit": "/check-security && /lint-agent",
     "post_commit": "/generate-docs",
-    // "pre_push": "/validate-config && /test-tools",
     "on_open": "/validate-config"
   }
 }
 ```
+
+(Note: `pre_push` was removed from the example above)
 
 ## Customize Hooks
 
