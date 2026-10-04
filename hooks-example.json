@@ -1,131 +1,50 @@
 {
-  "description": "Recommended Claude Code hooks configuration for Stock Agent",
-  "instructions": "Copy this 'hooks' section to ~/.claude/settings.json",
+  "description": "Git hooks setup guide for Stock Agent development workflow",
+  "note": "These are Git lifecycle hooks (not Claude Code hooks) - install to .git/hooks/",
+  "setup_instructions": [
+    "1. Copy the hook scripts to .git/hooks/",
+    "2. Make them executable: chmod +x .git/hooks/*",
+    "3. Hooks will run automatically on git commit, push, pull, etc."
+  ],
   "hooks": {
-    "pre_commit": "/check-security && /lint-agent && /test-agent 'test query'",
-    "post_commit": "/generate-docs",
-    "pre_push": "/validate-config && /test-tools",
-    "on_open": "/validate-config",
-    "post_fetch": "/validate-config"
-  },
-  "hook_explanations": {
-    "pre_commit": {
-      "when": "Before creating a git commit",
-      "runs": [
-        "/check-security - Scan for exposed API keys and secrets",
-        "/lint-agent - Check Python code quality and style",
-        "/test-agent - Quick validation that agent works"
-      ],
-      "purpose": "Prevent committing broken or insecure code",
-      "benefit": "Catches issues before they reach remote repo"
+    "pre-commit": {
+      "description": "Run before git commit",
+      "script": "#!/bin/bash\nset -e\necho 'Running pre-commit checks...'\npython -m tests.test_setup\necho 'Pre-commit checks passed'\n",
+      "purpose": "Prevent committing broken or insecure code"
     },
-    "post_commit": {
-      "when": "After commit is successfully created",
-      "runs": [
-        "/generate-docs - Auto-update documentation from code"
-      ],
-      "purpose": "Keep documentation in sync with code changes",
-      "benefit": "Docs are always current and accurate"
+    "pre-push": {
+      "description": "Run before git push",
+      "script": "#!/bin/bash\nset -e\necho 'Running pre-push validation...'\npython -m tests.test_setup\necho 'Pre-push validation passed'\n",
+      "purpose": "Final validation before sharing code to remote"
     },
-    "pre_push": {
-      "when": "Before pushing commits to remote",
-      "runs": [
-        "/validate-config - Verify environment setup is correct",
-        "/test-tools - Run all tool unit tests"
-      ],
-      "purpose": "Final validation before sharing code",
-      "benefit": "Ensures remote repo only gets tested code"
-    },
-    "on_open": {
-      "when": "When project is opened in Claude Code",
-      "runs": [
-        "/validate-config - Check environment and dependencies"
-      ],
-      "purpose": "Greet developer with project status",
-      "benefit": "Catch setup issues immediately"
-    },
-    "post_fetch": {
-      "when": "After pulling changes from remote (git pull)",
-      "runs": [
-        "/validate-config - Verify new code works with current setup"
-      ],
-      "purpose": "Ensure pulled changes don't break local setup",
-      "benefit": "Stay aware of compatibility changes"
+    "post-merge": {
+      "description": "Run after git pull/merge",
+      "script": "#!/bin/bash\necho 'Validating merged changes...'\npython -m tests.test_setup || echo 'Warning: Setup validation failed after merge'\n",
+      "purpose": "Ensure merged changes don't break local setup"
     }
   },
-  "workflow_examples": {
-    "typical_development_day": [
-      "1. Open project → on_open fires → Validates config",
-      "2. Make code changes",
-      "3. git commit → pre_commit fires → Security check + lint + test",
-      "4. Commit succeeds → post_commit fires → Docs auto-update",
-      "5. git push → pre_push fires → Final tests before remote push",
-      "6. Team member git pull → post_fetch fires → They validate setup"
+  "installation_example": {
+    "for_linux_macos": [
+      "cat > .git/hooks/pre-commit << 'EOF'",
+      "#!/bin/bash",
+      "set -e",
+      "python -m tests.test_setup",
+      "EOF",
+      "chmod +x .git/hooks/pre-commit"
     ],
-    "security_benefit": [
-      "Developer changes code",
-      "Tries to commit with exposed API key",
-      "pre_commit /check-security blocks commit",
-      "Developer sees error: 'API key found in config.py'",
-      "Developer fixes issue",
-      "Retries commit → Success"
+    "for_windows_powershell": [
+      "$hookContent = @'\n#!/bin/bash",
+      "set -e",
+      "python -m tests.test_setup",
+      "'@",
+      "Set-Content -Path .git/hooks/pre-commit -Value $hookContent -Encoding UTF8",
+      "& git config core.hooksPath .git/hooks"
     ]
   },
-  "how_to_install": {
-    "step1": "Locate your Claude Code settings file",
-    "step1_path": "~/.claude/settings.json (or ~/.claude/settings.local.json)",
-    "step2": "Open the settings file in your editor",
-    "step3": "Find or create the 'hooks' section",
-    "step4": "Copy the hooks configuration from this file",
-    "step5": "Save the file",
-    "step6": "Hooks are active immediately",
-    "example": {
-      "before": {
-        "some_setting": "value"
-      },
-      "after": {
-        "some_setting": "value",
-        "hooks": {
-          "pre_commit": "/check-security && /lint-agent && /test-agent 'test query'",
-          "post_commit": "/generate-docs",
-          "pre_push": "/validate-config && /test-tools",
-          "on_open": "/validate-config",
-          "post_fetch": "/validate-config"
-        }
-      }
-    }
-  },
-  "customization_tips": {
-    "tip1": "Reduce pre_commit if too slow: Remove /test-agent for faster commits",
-    "tip1_example": "pre_commit: '/check-security && /lint-agent'",
-    "tip2": "Add more validation: Chain more skills with &&",
-    "tip2_example": "pre_push: '/validate-config && /test-tools && /validate-portfolio'",
-    "tip3": "Run skills in parallel (experimental): Use ; instead of &&",
-    "tip3_note": "This runs all regardless of failures",
-    "tip4": "Disable a hook: Comment it out or remove it",
-    "tip5": "Add conditional logic: Use bash if statements",
-    "tip5_example": "pre_commit: '/check-security || exit 1 && /lint-agent'"
-  },
-  "troubleshooting": {
-    "hooks_not_running": [
-      "1. Verify hooks are in ~/.claude/settings.json (not settings.local.json only)",
-      "2. Check that skill.md is in project root",
-      "3. Restart Claude Code",
-      "4. Check ~/.claude/logs/ for errors"
-    ],
-    "hook_too_slow": [
-      "1. Remove /test-agent from pre_commit (slower)",
-      "2. Move it to pre_push instead",
-      "3. Use /lint-agent alone if still slow",
-      "4. Consider increasing timeout settings"
-    ],
-    "hook_blocking_commits": [
-      "1. This is intentional! Hooks prevent bad commits",
-      "2. Fix the issue the hook found",
-      "3. Run the skill manually: /check-security",
-      "4. Address the problem",
-      "5. Retry the commit"
-    ]
-  },
-  "security_note": "Pre-commit hooks act as a safety net. They catch issues before they reach the remote repository, protecting your API keys and code quality."
+  "notes": [
+    "Git hooks are stored in .git/hooks/ and are not version-controlled",
+    "For team-wide hooks, consider using husky (Node.js) or similar frameworks",
+    "These examples use python -m tests.test_setup for validation",
+    "Adjust scripts to match your preferred validation commands"
+  ]
 }
